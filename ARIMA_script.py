@@ -23,7 +23,7 @@ participants = dataset['id'].unique()
 MSE_matrix = []
 for participant in participants:
 
-    part_data = dataset[dataset['id'] == 'AS14.17']
+    part_data = dataset[dataset['id'] == participant ]
 
     series = part_data['mood_value']
 
@@ -74,32 +74,32 @@ for participant in participants:
 print(f"mean MSE across participants: {np.mean(MSE_matrix)}")
 
 
-#VARMA
-part_data = dataset[dataset['id'] == 'AS14.33']
+# #VARMA
+# part_data = dataset[dataset['id'] == 'AS14.33']
 
-list1=[]
-for feature in part_data.columns[2:]:
-    series=part_data[feature]
-    if adfuller(series, autolag='AIC')[1] > 0.05:
-        print(f"pvalue of ADF test for stationarity before correction for column {feature}:\
-              {adfuller(series, autolag='AIC')[1]}")
-        series=series.diff(periods=1)
-        series.dropna(inplace=True)
-    print(f"pvalue of ADF test for stationarity: {adfuller(series, autolag='AIC')[1]}")
+# list1=[]
+# for feature in part_data.columns[2:]:
+#     series=part_data[feature]
+#     if adfuller(series, autolag='AIC')[1] > 0.05:
+#         print(f"pvalue of ADF test for stationarity before correction for column {feature}:\
+#               {adfuller(series, autolag='AIC')[1]}")
+#         series=series.diff(periods=1)
+#         series.dropna(inplace=True)
+#     print(f"pvalue of ADF test for stationarity: {adfuller(series, autolag='AIC')[1]}")
     
-    model = auto_arima(series, start_p=1, start_q=1,
-                       test='adf',       # use adftest to find optimal 'd'
-                       max_p=3, max_q=3,  # maximum p and q
-                       m=1,              # frequency of series
-                       d=None,           # let model determine 'd'
-                       seasonal=False,   # No Seasonality
-                       start_P=0,
-                       D=0,
-                       trace=True,
-                       error_action='ignore',
-                       stepwise=True)
-    list1.append(model.order)
-set1=set(list1)
+#     model = auto_arima(series, start_p=1, start_q=1,
+#                        test='adf',       # use adftest to find optimal 'd'
+#                        max_p=3, max_q=3,  # maximum p and q
+#                        m=1,              # frequency of series
+#                        d=None,           # let model determine 'd'
+#                        seasonal=False,   # No Seasonality
+#                        start_P=0,
+#                        D=0,
+#                        trace=True,
+#                        error_action='ignore',
+#                        stepwise=True)
+#     list1.append(model.order)
+# set1=set(list1)
 
-model = VARMAX(part_data[part_data.columns[2:]], order = (2,1))
-model_fit = model.fit()
+# model = VARMAX(part_data[part_data.columns[2:]], order = (2,1))
+# model_fit = model.fit()
