@@ -34,7 +34,7 @@ if __name__ == "__main__":
         X_data = pd.DataFrame(X_scaler.fit_transform(dataset[['appCat.other_value', 'appCat.communication_value',
                                                               'circumplex.valence_value', 'screen_value', 'call_value',
                                                               'sms_value', 'appCat.weather_value',
-                                                              'appCat.builtin_value', 'appCat.travel_value']]))
+                                                              'appCat.builtin_value', 'appCat.travel_value', "mood_value"]]))
         Y_data = pd.DataFrame(Y_scaler.fit_transform(dataset[['mood_value']]))
 
         n_future = 1
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         model.add(Dense(1))
         model.compile(optimizer='adam', loss='mse')
 
-        model.fit(X_train, Y_train, epochs=100, verbose=0, validation_data=(X_val, Y_val))
+        model.fit(X_train, Y_train, epochs=50, verbose=0, validation_data=(X_val, Y_val))
 
         # model.summary()
 
